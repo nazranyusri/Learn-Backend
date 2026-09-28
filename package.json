@@ -1,0 +1,22 @@
+{
+  "name": "learn-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "imports": {
+    "#app/*": "./src/*"
+  },
+  "scripts": {
+    "dev": "node --env-file=.env --watch src/index.js",
+    "start": "node --env-file=.env src/index.js",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.11.0",
+    "globals": "^17.12.0"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
