@@ -18,6 +18,11 @@ export const Errors = Object.freeze({
     500,
     'Internal server error',
   ),
+  INVALID_CREDENTIALS: defineError(
+    'INVALID_CREDENTIALS',
+    401,
+    'Invalid email or password',
+  ),
   INVALID_UPSTREAM_RESPONSE: defineError(
     'INVALID_UPSTREAM_RESPONSE',
     502,

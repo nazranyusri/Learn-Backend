@@ -13,6 +13,8 @@ import { sendError } from '#app/utils/index.js';
 export function createApp() {
   const app = express();
 
+  app.use(express.json());
+
   app.use((request, response, next) => {
     // Header setting
     const incomingRequestId = request.get('X-Request-Id');

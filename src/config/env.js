@@ -14,6 +14,8 @@ try {
 export const env = {
   baseUrl,
   corsOrigin: process.env.CORS_ORIGIN ?? '*',
+  jwtExpiresIn: process.env.JWT_EXPIRES_IN ?? '7d',
+  jwtSecret: process.env.JWT_SECRET,
   nodeEnv: process.env.NODE_ENV,
   port,
   dbHost: process.env.DB_HOST,

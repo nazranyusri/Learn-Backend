@@ -1,5 +1,32 @@
 import { query } from '#app/db/pool.js';
 
+export async function findUserForAuthentication(email) {
+  const result = await query(
+    `
+      SELECT id, email, display_name, password_hash
+      FROM users
+      WHERE email = $1
+        AND deleted_at IS NULL
+    `,
+    [email],
+  );
+
+  return result.rows[0] ?? null;
+}
+
+export async function createUser(email, displayName, passwordHash) {
+  const result = await query(
+    `
+      INSERT INTO users (email, display_name, password_hash)
+      VALUES ($1, $2, $3)
+      RETURNING id, email, display_name
+    `,
+    [email, displayName, passwordHash],
+  );
+
+  return result.rows[0];
+}
+
 /**
     User Settings Repository
 */
