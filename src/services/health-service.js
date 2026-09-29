@@ -1,5 +1,5 @@
 import process from 'node:process';
-import { fetchHealth } from '#app/clients/health-client.js';
+import { fetchHealth } from '#app/clients/health.client.js';
 import { api } from '#app/constants/api.js';
 import { AppError, Errors } from '#app/errors/index.js';
 
