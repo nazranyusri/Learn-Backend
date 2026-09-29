@@ -16,4 +16,9 @@ export const env = {
   corsOrigin: process.env.CORS_ORIGIN ?? '*',
   nodeEnv: process.env.NODE_ENV,
   port,
+  dbHost: process.env.DB_HOST,
+  dbUser: process.env.DB_USER,
+  dbPort: process.env.DB_PORT,
+  dbPassword: process.env.DB_PASSWORD,
+  dbDatabase: process.env.DB_DATABASE,
 };
