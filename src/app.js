@@ -1,14 +1,10 @@
-import express from 'express';
-import { randomUUID } from 'node:crypto';
-import { applyCors } from '#app/middleware/cors.js';
-import { env } from '#app/config/env.js';
-import {
-  AppError,
-  Errors,
-  normalizeError,
-} from '#app/errors/index.js';
-import routes from '#app/routes/index.js';
-import { sendError } from '#app/utils/index.js';
+import express from "express";
+import { randomUUID } from "node:crypto";
+import { applyCors } from "#app/middleware/cors.js";
+import { env } from "#app/config/env.js";
+import { AppError, Errors, normalizeError } from "#app/errors/index.js";
+import routes from "#app/routes/index.js";
+import { sendError } from "#app/utils/index.js";
 
 export function createApp() {
   const app = express();
@@ -17,16 +13,16 @@ export function createApp() {
 
   app.use((request, response, next) => {
     // Header setting
-    const incomingRequestId = request.get('X-Request-Id');
+    const incomingRequestId = request.get("X-Request-Id");
     const requestId = incomingRequestId?.slice(0, 128) || randomUUID();
     response.locals.requestId = requestId;
-    response.setHeader('X-Request-Id', requestId);
-    response.setHeader('X-Content-Type-Options', 'nosniff');
-    response.setHeader('X-Frame-Options', 'DENY');
+    response.setHeader("X-Request-Id", requestId);
+    response.setHeader("X-Content-Type-Options", "nosniff");
+    response.setHeader("X-Frame-Options", "DENY");
     applyCors(response);
 
     // CORS preflight
-    if (request.method === 'OPTIONS') {
+    if (request.method === "OPTIONS") {
       response.sendStatus(204);
       return;
     }
@@ -48,15 +44,16 @@ export function createApp() {
   app.use((error, request, response, next) => {
     const normalizedError = normalizeError(error);
     const requestId = response.locals.requestId;
-    const message = normalizedError.expose || env.nodeEnv !== 'production'
-      ? normalizedError.message
-      : Errors.INTERNAL_SERVER_ERROR.message;
+    const publicError =
+      normalizedError.expose || env.nodeEnv !== "production"
+        ? normalizedError
+        : new AppError(Errors.INTERNAL_SERVER_ERROR);
 
     console.error({
       error: {
         code: normalizedError.code,
         name: normalizedError.name,
-        message: message,
+        message: normalizedError.message,
         stack: normalizedError.stack,
       },
       method: request.method,
@@ -70,7 +67,7 @@ export function createApp() {
       return;
     }
 
-    sendError(response, normalizedError, requestId, message);
+    sendError(response, publicError, requestId);
   });
 
   return app;

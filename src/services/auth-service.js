@@ -1,15 +1,15 @@
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { env } from '#app/config/env.js';
-import { AppError, Errors } from '#app/errors/index.js';
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { env } from "#app/config/env.js";
+import { AppError, Errors } from "#app/errors/index.js";
 import {
   createUser,
   findUserForAuthentication,
-} from '#app/repositories/index.js';
+} from "#app/repositories/index.js";
 
 function createToken(userId) {
   if (!env.jwtSecret) {
-    throw new Error('JWT_SECRET is not configured');
+    throw new Error("JWT_SECRET is not configured");
   }
 
   return jwt.sign({}, env.jwtSecret, {
@@ -20,14 +20,18 @@ function createToken(userId) {
 
 function validateCredentials(email, password) {
   if (
-    typeof email !== 'string' ||
-    typeof password !== 'string' ||
+    typeof email !== "string" ||
+    typeof password !== "string" ||
     email.trim().length === 0 ||
     password.length === 0
   ) {
     throw new AppError({
-      ...Errors.BAD_REQUEST,
-      message: 'Email and password are required',
+      ...Errors.UNPROCESSABLE_CONTENT,
+      detail: "Email and password are required.",
+      errors: [
+        { field: "email", message: "Email is required." },
+        { field: "password", message: "Password is required." },
+      ],
     });
   }
 }
@@ -35,10 +39,11 @@ function validateCredentials(email, password) {
 export async function register({ email, password, displayName }) {
   validateCredentials(email, password);
 
-  if (typeof displayName !== 'string' || displayName.trim().length === 0) {
+  if (typeof displayName !== "string" || displayName.trim().length === 0) {
     throw new AppError({
-      ...Errors.BAD_REQUEST,
-      message: 'Display name is required',
+      ...Errors.UNPROCESSABLE_CONTENT,
+      detail: "Display name is required.",
+      errors: [{ field: "displayName", message: "Display name is required." }],
     });
   }
 
@@ -53,18 +58,18 @@ export async function register({ email, password, displayName }) {
     );
 
     return {
-      token: createToken(user.id),
-      user: {
-        id: user.id,
-        email: user.email,
-        displayName: user.display_name,
-      },
+      accessToken: createToken(user.id),
+      displayName: user.display_name,
     };
   } catch (error) {
-    if (error.code === '23505') {
+    if (error.code === "23505") {
       throw new AppError({
         ...Errors.CONFLICT,
-        message: 'Email is already registered',
+        title: "Email already in use",
+        detail: "An account with this email is already registered.",
+        errors: [
+          { field: "email", message: "Email address is already in use." },
+        ],
         cause: error,
       });
     }
@@ -86,11 +91,6 @@ export async function login({ email, password }) {
   }
 
   return {
-    token: createToken(user.id),
-    user: {
-      id: user.id,
-      email: user.email,
-      displayName: user.display_name,
-    },
+    accessToken: createToken(user.id),
   };
 }

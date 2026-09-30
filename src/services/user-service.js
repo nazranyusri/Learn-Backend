@@ -1,10 +1,10 @@
-import { AppError, Errors } from '#app/errors/index.js';
+import { AppError, Errors } from "#app/errors/index.js";
 import {
   findUserById,
   updateUserDisplayName,
-    findUserSettingsById,
-    updateUserSettingsById
-} from '#app/repositories/index.js';
+  findUserSettingsById,
+  updateUserSettingsById,
+} from "#app/repositories/index.js";
 
 /**
     User Service
@@ -27,10 +27,11 @@ export async function getUser(userId) {
 }
 
 export async function updateUser(userId, { displayName }) {
-  if (typeof displayName !== 'string' || displayName.trim().length === 0) {
+  if (typeof displayName !== "string" || displayName.trim().length === 0) {
     throw new AppError({
-      ...Errors.BAD_REQUEST,
-      message: 'Display name is required',
+      ...Errors.UNPROCESSABLE_CONTENT,
+      detail: "Display name is required.",
+      errors: [{ field: "displayName", message: "Display name is required." }],
     });
   }
 
@@ -69,10 +70,7 @@ export async function getUserSettings(userId) {
   };
 }
 
-export async function updateUserSettings(
-  userId,
-  { timezone, weekStartsOn },
-) {
+export async function updateUserSettings(userId, { timezone, weekStartsOn }) {
   const settings = await updateUserSettingsById(
     userId,
     timezone?.trim(),
