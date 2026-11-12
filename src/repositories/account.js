@@ -2,10 +2,10 @@ import { query } from "#app/db/pool.js";
 
 export async function fetchAccounts(userId) {
   const result = await query(
-    `SELECT * FROM accounts WHERE user_id = $1 AND is_active = TRUE`,
+    `SELECT id, name, account_type, opening_balance, updated_at, is_savings_account FROM accounts WHERE user_id = $1 AND is_active = TRUE`,
     [userId],
   );
-  return result.rows ?? null;
+  return result.rows;
 }
 
 export async function fetchAccountByAccountId(userId, accountId) {
@@ -24,7 +24,7 @@ export async function createAccount(userId, accountData) {
     `INSERT INTO accounts
       (user_id, name, account_type, opening_balance, is_savings_account)
      VALUES ($1, $2, $3, $4, $5)
-     RETURNING *`,
+     RETURNING name`,
     [userId, name, account_type, opening_balance, is_savings_account],
   );
   return result.rows[0];

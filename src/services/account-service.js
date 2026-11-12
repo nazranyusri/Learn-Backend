@@ -6,6 +6,10 @@ import {
   updateAnAccount,
   deleteAccount as deleteAnAccount,
 } from "#app/repositories/index.js";
+import {
+  formatAccountData,
+  formatAddAccountData,
+} from "#app/utils/formatter.js";
 
 function validateAccountData(accountData) {
   if (!accountData || typeof accountData !== "object") {
@@ -17,17 +21,17 @@ function validateAccountData(accountData) {
   }
 
   const {
-    name,
-    account_type: accountType,
-    opening_balance: openingBalance = 0,
-    is_savings_account: isSavingsAccount = false,
+    accountName,
+    accountType,
+    openingBalance = 0,
+    isSavingsAccount = false,
   } = accountData;
 
   const errors = [];
 
-  if (typeof name !== "string" || name.trim().length === 0) {
+  if (typeof accountName !== "string" || accountName.trim().length === 0) {
     errors.push({ field: "name", message: "Name is required." });
-  } else if (name.trim().length > 100) {
+  } else if (accountName.trim().length > 100) {
     errors.push({
       field: "name",
       message: "Name must be 100 characters or fewer.",
@@ -35,6 +39,7 @@ function validateAccountData(accountData) {
   }
 
   const accountTypes = ["BANK", "EWALLET", "CASH", "OTHER"];
+  console.log(accountData);
   if (!accountTypes.includes(accountType)) {
     errors.push({
       field: "account_type",
@@ -72,7 +77,7 @@ function validateAccountData(accountData) {
   }
 
   return {
-    name: name.trim(),
+    name: accountName.trim(),
     accountType,
     openingBalance: openingBalanceText,
     isSavingsAccount,
@@ -88,7 +93,7 @@ export async function getAccounts(userId) {
     });
   }
   const accounts = await fetchAccounts(userId);
-  return { accounts };
+  return accounts.map(formatAccountData);
 }
 
 export async function getAccountById(userId, accountId) {
@@ -141,7 +146,7 @@ export async function createAccount(userId, accountData) {
     });
   }
 
-  return { account };
+  return formatAddAccountData(account);
 }
 
 export async function updateAccount(userId, accountId, accountData) {
