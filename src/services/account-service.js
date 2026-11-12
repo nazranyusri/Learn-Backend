@@ -117,7 +117,7 @@ export async function getAccountById(userId, accountId) {
       errors: [{ field: "accountId", message: "Account not found." }],
     });
   }
-  return { account };
+  return formatAccountData(account);
 }
 
 export async function createAccount(userId, accountData) {

@@ -10,7 +10,7 @@ export async function fetchAccounts(userId) {
 
 export async function fetchAccountByAccountId(userId, accountId) {
   const result = await query(
-    `SELECT * FROM accounts WHERE user_id = $1 AND id = $2`,
+    `SELECT id, name, account_type, opening_balance, updated_at, is_savings_account FROM accounts WHERE user_id = $1 AND id = $2`,
     [userId, accountId],
   );
   return result.rows[0] ?? null;
