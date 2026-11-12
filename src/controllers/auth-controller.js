@@ -1,5 +1,5 @@
-import { login, register } from '#app/services/index.js';
-import { sendJson } from '#app/utils/index.js';
+import { login, register } from "#app/services/index.js";
+import { sendJson } from "#app/utils/index.js";
 
 export async function registerController(request, response) {
   const result = await register(request.body ?? {});

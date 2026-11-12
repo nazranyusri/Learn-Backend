@@ -1,5 +1,5 @@
-import { getHealth } from '#app/services/index.js';
-import { sendJson } from '#app/utils/index.js';
+import { getHealth } from "#app/services/index.js";
+import { sendJson } from "#app/utils/index.js";
 
 export async function healthController(_request, response) {
   const health = await getHealth();

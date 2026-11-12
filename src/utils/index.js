@@ -1,1 +1,1 @@
-export { sendError, sendJson } from '#app/utils/http.js';
+export { sendError, sendJson } from "#app/utils/http.js";

@@ -55,6 +55,7 @@ export function createApp() {
         name: normalizedError.name,
         message: normalizedError.message,
         stack: normalizedError.stack,
+        cause: normalizedError.cause,
       },
       method: request.method,
       path: request.originalUrl,

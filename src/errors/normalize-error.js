@@ -1,14 +1,13 @@
-import { AppError } from '#app/errors/app-error.js';
-import { Errors } from '#app/errors/catalog.js';
+import { AppError } from "#app/errors/app-error.js";
+import { Errors } from "#app/errors/catalog.js";
 
 export function normalizeError(error) {
-	if (error instanceof AppError) {
-		return error;
-	}
+  if (error instanceof AppError) {
+    return error;
+  }
 
-	return new AppError({
-		cause: error,
-		...Errors.INTERNAL_SERVER_ERROR,
-	});
+  return new AppError({
+    cause: error,
+    ...Errors.INTERNAL_SERVER_ERROR,
+  });
 }
-

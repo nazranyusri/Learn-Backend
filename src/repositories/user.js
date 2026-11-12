@@ -1,4 +1,4 @@
-import { query } from '#app/db/pool.js';
+import { query } from "#app/db/pool.js";
 
 export async function findUserForAuthentication(email) {
   const result = await query(
@@ -92,11 +92,7 @@ export async function findUserSettingsById(userId) {
   return result.rows[0] ?? null;
 }
 
-export async function updateUserSettingsById(
-  userId,
-  timezone,
-  weekStartsOn,
-) {
+export async function updateUserSettingsById(userId, timezone, weekStartsOn) {
   const result = await query(
     `
       UPDATE user_settings

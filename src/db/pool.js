@@ -1,5 +1,5 @@
-import pg from 'pg';
-import { env } from '#app/config/env.js';
+import pg from "pg";
+import { env } from "#app/config/env.js";
 
 const { Pool } = pg;
 
@@ -11,10 +11,10 @@ export const pool = new Pool({
   database: env.dbDatabase,
 });
 
-pool.on('error', (error) => {
+pool.on("error", (error) => {
   console.error({
     error,
-    message: 'Unexpected PostgreSQL idle client error',
+    message: "Unexpected PostgreSQL idle client error",
   });
 });
 
@@ -23,5 +23,5 @@ export function query(text, values) {
 }
 
 export async function checkDatabaseConnection() {
-  await pool.query('SELECT 1');
+  await pool.query("SELECT 1");
 }

@@ -5,4 +5,11 @@ export {
   updateUserDisplayName,
   findUserSettingsById,
   updateUserSettingsById,
-} from './user.js';
+} from "./user.js";
+export {
+  fetchAccounts,
+  fetchAccountByAccountId,
+  createAccount,
+  updateAnAccount,
+  deleteAccount,
+} from "./account.js";

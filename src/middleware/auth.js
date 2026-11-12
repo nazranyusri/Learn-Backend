@@ -1,12 +1,12 @@
-import jwt from 'jsonwebtoken';
-import { env } from '#app/config/env.js';
-import { AppError, Errors } from '#app/errors/index.js';
+import jwt from "jsonwebtoken";
+import { env } from "#app/config/env.js";
+import { AppError, Errors } from "#app/errors/index.js";
 
 export function requireAuth(request, _response, next) {
-  const authorization = request.get('Authorization');
-  const [scheme, token] = authorization?.split(' ') ?? [];
+  const authorization = request.get("Authorization");
+  const [scheme, token] = authorization?.split(" ") ?? [];
 
-  if (scheme !== 'Bearer' || !token || !env.jwtSecret) {
+  if (scheme !== "Bearer" || !token || !env.jwtSecret) {
     next(new AppError(Errors.UNAUTHORIZED));
     return;
   }
@@ -15,7 +15,7 @@ export function requireAuth(request, _response, next) {
     const payload = jwt.verify(token, env.jwtSecret);
 
     if (!payload.sub) {
-      throw new Error('JWT subject is missing');
+      throw new Error("JWT subject is missing");
     }
 
     request.user = { id: payload.sub };

@@ -3,8 +3,8 @@ import {
   updateUser,
   getUserSettings,
   updateUserSettings,
-} from '#app/services/index.js';
-import { sendJson } from '#app/utils/index.js';
+} from "#app/services/index.js";
+import { sendJson } from "#app/utils/index.js";
 
 /**
     User Controller
@@ -26,7 +26,6 @@ export async function updateUserController(request, response) {
     user,
   });
 }
-
 
 /**
     User Settings Controller

@@ -1,4 +1,4 @@
-import { AppError, Errors } from '#app/errors/index.js';
+import { AppError, Errors } from "#app/errors/index.js";
 
 export async function fetchHealth(endpoint) {
   let response;
@@ -16,7 +16,7 @@ export async function fetchHealth(endpoint) {
 
   try {
     body = await response.json();
-    console.log('body', body);
+    console.log("body", body);
   } catch (error) {
     throw new AppError({
       cause: error,
