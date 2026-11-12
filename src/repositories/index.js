@@ -13,3 +13,4 @@ export {
   updateAnAccount,
   deleteAccount,
 } from "./account.js";
+export { fetchCategories } from "./category.js";
