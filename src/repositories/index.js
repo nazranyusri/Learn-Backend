@@ -14,3 +14,4 @@ export {
   deleteAccount,
 } from "./account.js";
 export { fetchCategories } from "./category.js";
+export { fetchTransactions } from "./transaction.js";

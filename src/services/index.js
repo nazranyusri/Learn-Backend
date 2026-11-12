@@ -13,4 +13,4 @@ export {
   updateAccount,
   deleteAccount,
 } from "./account-service.js";
-export { getCategories } from "./category-service.js";
+export { getTransactions } from "./transaction-service.js";

@@ -14,3 +14,4 @@ export {
   deleteAccountController,
 } from "./account-controller.js";
 export { getCategoriesController } from "./category-controller.js";
+export { getTransactionsController } from "./transaction-controller.js";
